@@ -15,7 +15,49 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+window.onload = () => {
+  const suggestions = document.getElementsByClassName('suggestions')[0],
+        endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+  const allCities = [];
+
+  fetch(endpoint)
+    .then(blob => blob.json())
+    .then(data => allCities.push(...data))
+
+  const getCities = e => {
+    const value = e.target.value,
+          pattern = new RegExp(value, 'gi');
+    const filteredCities = allCities
+                            .filter(city => city.city.match(pattern) || city.state.match(pattern))
+                            .sort((a,b) => b.population - a.population);
+    printAndHighlight(filteredCities, value);
+  }
+
+  const printAndHighlight = (filteredCities, value) => {
+    const pattern = new RegExp(value, 'gi'),
+          html = filteredCities
+                  .map(city => {
+                    const highlightedCity = city.city.replace(pattern, `<span class="hl">${value}</span>`),
+                          highlightedState = city.state.replace(pattern, `<span class="hl">${value}</span>`);
+                    return `
+                      <li>
+                        <span class="name">${highlightedCity}, ${highlightedState}</span>
+                        <span class="population">${format(city.population)}</span>
+                      </li>
+                    `
+                  })
+                  .join('');
+    suggestions.innerHTML = html;
+  }
+
+  // on input, run getCities
+  const input = document.getElementsByTagName('input')[0];
+  input.addEventListener('input', getCities);
+}
+
+// helper
+const format = number => number.replace(new RegExp('^(\\d{' + (number.length%3?number.length%3:0) + '})(\\d{3})', 'g'), '$1 $2').replace(/(\d{3})+?/gi, '$1 ').trim().replace(/\s/g,',');
 
 </script>
   </body>
