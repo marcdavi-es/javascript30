@@ -31,29 +31,46 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
-
+    const fifteen = inventors.filter(inventor => inventor.year > 1499 && inventor.year < 1600);
+    console.table(fifteen);
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
-
+    const names = inventors.map(inventor => `${inventor.first} ${inventor.last}`);
+    console.log(names);
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
-
+    const birthder = inventors.sort((a,b) => a.year - b.year);
+    console.table(birthder);
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
-
+    const years = inventors.reduce((total,value) => total += value.passed-value.year, 0);
+    console.log(years);
     // 5. Sort the inventors by years lived
-
+    const eldest = inventors.sort((a,b) => (a.passed-a.year) - (b.passed-b.year));
+    console.table(eldest);
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-
-
+    const links = [...document.querySelectorAll('.mw-category-group a')];
+    const boulevards = links
+                          .map(a => a.textContent)
+                          .filter(text => text.indexOf('de') > -1);
     // 7. sort Exercise
     // Sort the people alphabetically by last name
-
+    const abc = people.sort((a,b) => {
+      const [aLast, aFirst] = a.split(','),
+            [bLast, bFirst] = b.split(',');
+      return aLast > bLast ? 1 : -1;
+    });
+    console.log(abc);
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
-
+    const instances = data.reduce((obj, value) => {      
+      if (!obj[value]) obj[value] = 0;
+      obj[value]++;
+      return obj;
+    }, {})
+    console.log(instances);
   </script>
 </body>
 </html>
