@@ -7,6 +7,13 @@
 </head>
 <body>
 <script>
+	const sequence = ['ArrowDown','ArrowDown','ArrowUp','ArrowUp','ArrowRight','ArrowLeft','ArrowRight','ArrowLeft','b','a','Enter'];
+	let i = 0;
+	window.addEventListener('keyup', e => {
+		if (sequence[i]!==e.key) return i = 0;
+		i++;
+		if (i === sequence.length) console.log('Hooray');
+	})
 </script>
 </body>
 </html>

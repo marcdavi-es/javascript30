@@ -8,43 +8,80 @@
 
   <script>
     // start with strings, numbers and booleans
+    let age = 100;
+    let age2 = age;
+    console.log('Numbers 1:', age, age2);
+    age2 = 200;
+    console.log('Numbers 2:', age, age2);
 
+    let name = 'Marc';
+    let name2 = name;
+    console.log('Strings 1:', name, name2);
+    name2 = 'William';
+    console.log('Strings 2:', name, name2);
+
+    let bool = true;
+    let bool2 = bool;
+    console.log('Booleans 1:', bool, bool2);
+    bool2 = false;
+    console.log('Booleans 2:', bool, bool2);
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
-
     // and we want to make a copy of it.
-
+    const team = players;
+    console.log('Array 1:', players, team);
     // You might think we can just do something like this:
-
+    team[3] = 'Marc'; // just a reference
     // however what happens when we update that array?
-
+    console.log('Array 2:', players, team);
     // now here is the problem!
-
     // oh no - we have edited the original array too!
-
     // Why? It's because that is an array reference, not an array copy. They both point to the same array!
-
     // So, how do we fix this? We take a copy instead!
-
     // one way
-
+    const team1 = players.slice();
+    team1[3] = 'Zell';
+    console.log('Array 3:', players, team1);
     // or create a new array and concat the old one in
-
+    const team2 = [].concat(players);
+    team2[3] = 'Brien';
+    console.log('Array 4:', players, team2);
     // or use the new ES6 Spread
-
+    const team3 = [...players];
+    team3[3] = 'Kyle';
+    console.log('Array 5:', players, team3);
     // now when we update it, the original one isn't changed
 
     // The same thing goes for objects, let's say we have a person object
-
-    // with Objects
-
+    const person = {
+        name: 'Josh',
+        age: 300
+    };
     // and think we make a copy:
-
+    const zombie = person;
+    console.table([zombie, person]);
+    zombie.age = 1;
+    console.table([zombie, person]);
     // how do we take a copy instead?
-
+    const zombie1 = Object.assign({}, person, { age: 12 });
+    console.table([zombie1, person]);
     // We will hopefully soon see the object ...spread
 
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+    const dog = {
+        name: 'Bongo',
+        colour: 'Brown',
+        tricks: {
+            sit: true,
+            rollover: false,
+            beg: true
+        }
+    }
+    // poor man's deep clone
+    const dog1 = JSON.parse(JSON.stringify(dog));
+    dog1.tricks.rollover = true;
+    console.table([dog.tricks]);
+    console.table([dog1.tricks]);
 
   </script>
 

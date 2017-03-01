@@ -55,8 +55,6 @@
       text-align: center;
       font-size: 15px;
     }
-
-
   </style>
    <!--
    The following is a common layout you would see in an email client.
@@ -104,6 +102,30 @@
   </div>
 
 <script>
+  const inputs = document.querySelectorAll('input'),
+        inbox = document.querySelectorAll('.inbox')[0];
+  let lastChecked;
+
+  function toggleCheck (e) {
+    // get the index of this child in relation to its parent
+    const checked = this.checked,
+          items = inbox.children,
+          index = Array
+                    .from(items)
+                    .indexOf(this.parentNode);
+    if (!e.shiftKey) return lastChecked = index;
+    // iterate over inbetween children and toggle check
+    let [lower, higher] = [index, lastChecked].sort(),
+        indices = [];
+    for (var i = 0; i <= higher; i++) {
+      if (i >= lower) {
+        items[i].children[0].checked = checked;
+      }
+    }
+    lastChecked = index;
+  };
+
+  inputs.forEach(input => input.addEventListener('click', toggleCheck))
 </script>
 </body>
 </html>
