@@ -22,7 +22,7 @@
       font-size: 20px;
       background: white;
       width: 500px;
-      margin: auto;
+      margin: 5em auto;
       padding: 0;
       box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
     }
@@ -44,8 +44,14 @@
   <ul id="bands"></ul>
 
 <script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+const ul = document.querySelectorAll('#bands')[0],
+      bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'],
+      match = /^(?:(the |a |an ))/i;
 
+ul.innerHTML = bands
+                .sort((a,b) => a.replace(match, '') < b.replace(match, '') ? -1 : 1)
+                .map(band => `<li>${band}</li>`)
+                .join('');
 
 </script>
 
